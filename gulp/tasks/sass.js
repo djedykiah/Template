@@ -5,8 +5,12 @@ var postcss      = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var mqpacker     = require('css-mqpacker');
 var config       = require('../config');
-var csso = require('postcss-csso');
-
+var csso = require('postcss-csso'); 
+var cssdeclaration = require('css-declaration-sorter');
+var shortConfig = {};
+['border', 'borderRadius', 'color', 'fontSize', 'position', 'size', 'spacing'].forEach((val) => {
+  shortConfig[val] = { skip: '_' };
+}); 
 var processors = [
     autoprefixer({
         browsers: ['last 4 versions'],
@@ -15,7 +19,14 @@ var processors = [
     require('lost'),
     mqpacker({
         sort: sortMediaQueries
-    }),
+		}), 
+		require('rucksack-css')({
+			autoprefixer: false
+		}), 
+		cssdeclaration({
+			order: 'concentric-css'
+		}), 
+		require('postcss-short')(shortConfig),
     csso
 ];
 
