@@ -23,6 +23,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 .idea
+build
 
 # Folders to ignore
 .sass-cache
